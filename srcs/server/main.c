@@ -6,7 +6,7 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:21:05 by thloyan           #+#    #+#             */
-/*   Updated: 2023/04/03 16:39:47 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:49:28 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
+#include "server.h"
 
 #define BLOCK_SIZE 1024
 
@@ -43,10 +44,8 @@ t_node *create_node(void) {
     t_node *new_node;
 
     new_node = malloc(sizeof(t_node));
-    if (new_node == NULL) {
-        perror("Erreur d'allocation de mémoire");
+    if (new_node == NULL)
         exit(1);
-    }
     new_node->next = NULL;
     return new_node;
 }
@@ -55,10 +54,8 @@ t_client *create_client(pid_t pid) {
     t_client *new_client;
 
     new_client = malloc(sizeof(t_client));
-    if (new_client == NULL) {
-        perror("Erreur d'allocation de mémoire");
+    if (new_client == NULL)
         exit(1);
-    }
     new_client->pid = pid;
     new_client->bit_index = 0;
     new_client->char_index = 0;
@@ -101,10 +98,10 @@ void print_and_reset_data(t_client *client) {
 
     iter = client->message_data.head;
     while (iter != NULL) {
-        printf("%s", iter->data);
+        ft_putstr(iter->data);
         iter = iter->next;
     }
-    printf("\n");
+    ft_putstr("\n");
     free_memory(&client->message_data);
     client->message_data.head = create_node();
     client->message_data.tail = client->message_data.head;
@@ -166,10 +163,7 @@ void	setup_signal_handler(void)
 	sa.sa_mask = signal_set;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-	{
-		perror("Erreur en configurant le gestionnaire de signal");
 		exit(1);
-	}
 }
 
 int	main(void)
@@ -177,7 +171,7 @@ int	main(void)
 	pid_t	pid;
 
 	pid = getpid();
-	printf("PID du serveur : %d\n", pid);
+	ft_putnbr_fd(pid, 1);
 	setup_signal_handler();
 	while (1)
 		pause();

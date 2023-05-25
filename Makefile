@@ -6,7 +6,7 @@
 #    By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 14:19:35 by thloyan           #+#    #+#              #
-#    Updated: 2023/03/31 11:27:50 by thloyan          ###   ########.fr        #
+#    Updated: 2023/05/25 16:47:06 by thloyan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,8 @@ CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -MMD -MP
 OBJDIR = .build
 
-SRCS_UTILS	=	utils/test.c
-SRCS_CLIENT = 	$(SRCS_UTILS) client/main.c
-SRCS_SERVER = 	$(SRCS_UTILS) server/main.c
+SRCS_CLIENT = client/main.c client/utils.c
+SRCS_SERVER = server/main.c server/utils.c
 
 OBJS_CLIENT = $(addprefix $(OBJDIR)/, $(SRCS_CLIENT:.c=.o))
 OBJS_SERVER = $(addprefix $(OBJDIR)/, $(SRCS_SERVER:.c=.o))
@@ -51,18 +50,20 @@ all: $(NAME)
 $(NAME): $(OBJDIR) $(CLIENT) $(SERVER)
 
 $(CLIENT): $(OBJS_CLIENT)
-	$(CC) $(CFLAGS) -o $(CLIENT) $(OBJS_CLIENT)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(OBJS_CLIENT) -I${INCLUDES}/client
 
 $(SERVER): $(OBJS_SERVER)
-	$(CC) $(CFLAGS) -o $(SERVER) $(OBJS_SERVER)
+	$(CC) $(CFLAGS) -o $(SERVER) $(OBJS_SERVER) -I${INCLUDES}/server
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)/client
 	mkdir -p $(OBJDIR)/server
-	mkdir -p $(OBJDIR)/utils
 
-$(OBJDIR)/%.o: srcs/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I${INCLUDES}
+$(OBJDIR)/$(CLIENT)/%.o: srcs/$(CLIENT)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I${INCLUDES}/client
+
+$(OBJDIR)/$(SERVER)/%.o: srcs/$(SERVER)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I${INCLUDES}/server
 
 clean:
 	rm -rf $(OBJDIR)

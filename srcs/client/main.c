@@ -6,7 +6,7 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:21:08 by thloyan           #+#    #+#             */
-/*   Updated: 2023/04/03 14:32:38 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:49:18 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
+#include "client.h"
 
 static int	g_ack_received = 0;
 
@@ -46,10 +47,7 @@ void	setup_ack_handler(void)
 	sa.sa_handler = ack_handler;
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-	{
-		perror("Erreur en configurant le gestionnaire de signal");
 		exit(1);
-	}
 }
 
 void	send_message(pid_t server_pid, char *message)
@@ -59,7 +57,7 @@ void	send_message(pid_t server_pid, char *message)
 	int				j;
 
 	i = 0;
-	while (i <= (int)strlen(message))
+	while (i <= ft_strlen(message))
 	{
 
 		c = message[i];
@@ -80,10 +78,7 @@ int	main(int argc, char *argv[])
 	char	*message;
 
 	if (argc != 3)
-	{
-		printf("Usage: %s <server_pid> <message>\n", argv[0]);
 		exit(1);
-	}
 	server_pid = atoi(argv[1]);
 	message = argv[2];
 	setup_ack_handler();
