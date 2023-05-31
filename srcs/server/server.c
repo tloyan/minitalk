@@ -6,7 +6,7 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 13:59:22 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/31 15:17:49 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/31 16:09:19 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,18 @@
 
 t_client	*g_clients = NULL;
 
-t_node	*create_node(void)
+void	free_all_exit(void)
 {
-	t_node	*new_node;
+	t_client	tmp;
 
-	new_node = malloc(sizeof(t_node));
-	if (new_node == NULL)
-		exit(1);
-	new_node->next = NULL;
-	return (new_node);
-}
-
-t_client	*create_client(pid_t pid)
-{
-	t_client	*new_client;
-
-	new_client = malloc(sizeof(t_client));
-	if (new_client == NULL)
-		exit(1);
-	new_client->pid = pid;
-	new_client->bit_index = 0;
-	new_client->char_index = 0;
-	new_client->current_char = 0;
-	new_client->message_data.head = create_node();
-	new_client->message_data.tail = new_client->message_data.head;
-	new_client->next = NULL;
-	return (new_client);
+	while (g_clients)
+	{
+		tmp = *g_clients->next;
+		free_memory_client(g_clients->pid);
+		free(g_clients);
+		g_clients = &tmp;
+	}
+	exit(1);
 }
 
 t_client	*find_or_create_client(pid_t pid)
@@ -71,19 +57,26 @@ void	free_memory(t_data *data)
 	}
 }
 
-void	print_and_reset_data(t_client *client)
+void	free_memory_client(pid_t pid)
 {
-	t_node	*iter;
+	t_client	*client;
+	t_client	*prev;
 
-	iter = client->message_data.head;
-	while (iter != NULL)
+	prev = NULL;
+	client = g_clients;
+	while (client != NULL)
 	{
-		ft_putstr(iter->data);
-		iter = iter->next;
+		if (client->pid == pid)
+		{
+			if (prev == NULL)
+				g_clients = client->next;
+			else
+				prev->next = client->next;
+			free_memory(&client->message_data);
+			free(client);
+			break ;
+		}
+		prev = client;
+		client = client->next;
 	}
-	ft_putstr("\n");
-	free_memory(&client->message_data);
-	client->message_data.head = create_node();
-	client->message_data.tail = client->message_data.head;
-	client->char_index = 0;
 }

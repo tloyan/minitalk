@@ -6,11 +6,25 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:21:05 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/31 15:17:27 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/31 16:20:04 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
+
+void	print_and_reset_data(t_client *client)
+{
+	t_node	*iter;
+
+	iter = client->message_data.head;
+	while (iter != NULL)
+	{
+		ft_putstr(iter->data);
+		iter = iter->next;
+	}
+	ft_putstr("\n");
+	free_memory_client(client->pid);
+}
 
 void	handle_received_char(t_client **client)
 {
@@ -28,7 +42,7 @@ void	handle_received_char(t_client **client)
 	if ((*client)->current_char == '\0')
 	{
 		print_and_reset_data(*client);
-		(*client)->char_index = 0;
+		*client = NULL;
 		return ;
 	}
 	(*client)->char_index++;
@@ -46,8 +60,11 @@ void	signal_bit_handler(int signum, siginfo_t *info, void *ucontext)
 	if (client->bit_index >= 8)
 	{
 		handle_received_char(&client);
-		client->current_char = 0;
-		client->bit_index = 0;
+		if (client)
+		{
+			client->current_char = 0;
+			client->bit_index = 0;
+		}
 	}
 	kill(info->si_pid, SIGUSR1);
 }
@@ -65,7 +82,7 @@ void	setup_signal_handler(void)
 	sa.sa_mask = signal_set;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
-		exit(1);
+		free_all_exit();
 }
 
 int	main(void)

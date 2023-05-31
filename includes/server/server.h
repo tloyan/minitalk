@@ -6,7 +6,7 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:23:16 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/31 15:19:11 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/31 15:58:47 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void		ft_putnbr_fd(int n, int fd);
 t_node		*create_node(void);
 t_client	*create_client(pid_t pid);
 t_client	*find_or_create_client(pid_t pid);
-void		free_memory(t_data *data);
+// void		free_memory(t_data *data);
 void		print_and_reset_data(t_client *client);
+void		free_all_exit(void);
+void		free_memory_client(pid_t pid);
 
 #endif
