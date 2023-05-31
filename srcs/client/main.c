@@ -6,11 +6,10 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:21:08 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/25 16:49:18 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/31 15:19:24 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
@@ -59,7 +58,6 @@ void	send_message(pid_t server_pid, char *message)
 	i = 0;
 	while (i <= ft_strlen(message))
 	{
-
 		c = message[i];
 		j = 0;
 		while (j < 8)

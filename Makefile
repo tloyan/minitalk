@@ -6,7 +6,7 @@
 #    By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 14:19:35 by thloyan           #+#    #+#              #
-#    Updated: 2023/05/25 16:47:06 by thloyan          ###   ########.fr        #
+#    Updated: 2023/05/31 14:54:45 by thloyan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CFLAGS = -g -Wall -Wextra -Werror -MMD -MP
 OBJDIR = .build
 
 SRCS_CLIENT = client/main.c client/utils.c
-SRCS_SERVER = server/main.c server/utils.c
+SRCS_SERVER = server/main.c server/server.c server/utils.c
 
 OBJS_CLIENT = $(addprefix $(OBJDIR)/, $(SRCS_CLIENT:.c=.o))
 OBJS_SERVER = $(addprefix $(OBJDIR)/, $(SRCS_SERVER:.c=.o))

@@ -6,26 +6,12 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:50:29 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/25 16:50:48 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/05/31 14:52:37 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <limits.h>
-
-// int	ft_isspace(int c)
-// {
-// 	if (c == 32 || (c >= 9 && c <= 13))
-// 		return (1);
-// 	return (0);
-// }
-
-// int	ft_isdigit(int c)
-// {
-// 	if (c >= 48 && c <= 57)
-// 		return (1);
-// 	return (0);
-// }
 
 int	ft_intlen(int n)
 {
