@@ -6,7 +6,7 @@
 /*   By: thloyan <thloyan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 14:21:08 by thloyan           #+#    #+#             */
-/*   Updated: 2023/05/31 15:19:24 by thloyan          ###   ########.fr       */
+/*   Updated: 2023/06/01 12:58:59 by thloyan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 3)
 		exit(1);
-	server_pid = atoi(argv[1]);
+	server_pid = ft_atoi(argv[1]);
 	message = argv[2];
 	setup_ack_handler();
 	send_message(server_pid, message);
